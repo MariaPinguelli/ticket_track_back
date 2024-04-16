@@ -13,3 +13,17 @@
 Após instalar tudo, execute os seguintes comandos dentro da pasta do projeto:
 - `bundle install`
 - `rails db:migrate`
+
+## Rotas
+Para listar todas no terminal use:
+`rails routes`
+
+Listas existentes:
+| Método | Rota | Resposta |
+|---|---|---|
+| GET    | /users | Todos os usuários cadastrados |
+| GET    | /users/id | Um usuário |
+| POST   | /users | Usuário cadastrado |
+| PUT    | /users/id | Usuário atualizado |
+| DELETE | /users/id | Confirmação de deleção |
+---
