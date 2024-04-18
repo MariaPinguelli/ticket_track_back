@@ -18,6 +18,10 @@ Após instalar tudo, execute os seguintes comandos dentro da pasta do projeto:
 Para listar todas no terminal use:
 `rails routes`
 
+## Comandos úteis
+`rails s` inicia o projeto
+`rails db:seed` para inserir dados para testes no banco
+
 Listas existentes:
 | Método | Rota | Resposta |
 |---|---|---|
