@@ -15,6 +15,12 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 
 gem 'rack-cors'
 
+gem 'selenium-webdriver'
+
+gem 'json'
+
+gem 'sidekiq'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
