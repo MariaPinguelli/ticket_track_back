@@ -92,7 +92,12 @@ class EventScrapJob < ApplicationJob
             description += " #{item.text}"
           end
           date = scraper.find_element(css: 'section > div > div > div > div > p').text
-          address = scraper.find_element(xpath: '/html/body/div[1]/section[2]/div/div[1]/div[3]/div/span/a').text
+
+          begin
+            address = scraper.find_element(css: 'body > div > section > div > div > div > div > span > a').text
+          rescue 
+            address = "Evento Online"
+          end
           
           url = scraper.current_url
 
@@ -167,8 +172,8 @@ def create_new_events(path)
   new_data.each_with_index do |new_event, index|
     event = Event.find_by(name: new_event['name'])
 
-    unless event
-      begin
+    unless event || !has_diff(event, new_event)
+      begin 
         Event.create(
           name: new_event['name'],
           description: new_event['description'],
@@ -185,4 +190,20 @@ def create_new_events(path)
     end
 
   end
+end
+
+def has_diff(old_event, new_event)
+  if old_event.description != new_event['description']
+    return true
+  elsif old_event.start_time != new_event['start_time']
+    return true
+  elsif old_event.end_time != new_event['end_time']
+    return true
+  elsif old_event.url != new_event['url']
+    return true
+  elsif old_event.address != new_event['address']
+    return true
+  end
+
+  return false
 end
