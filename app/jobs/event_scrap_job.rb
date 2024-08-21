@@ -3,6 +3,20 @@ class EventScrapJob < ApplicationJob
 
   def perform(*args)
     puts "------------------- Iniciando Scraper -------------------"
+    months = {
+      "jan" => "01",
+      "fev" => "02",
+      "mar" => "03",
+      "abr" => "04",
+      "mai" => "05",
+      "jun" => "06",
+      "jul" => "07",
+      "ago" => "08",
+      "set" => "09",
+      "out" => "10",
+      "nov" => "11",
+      "dez" => "12"
+    }
 
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180 # seconds
@@ -78,7 +92,7 @@ class EventScrapJob < ApplicationJob
             description += " #{item.text}"
           end
           date = scraper.find_element(css: 'section > div > div > div > div > p').text
-          address = scraper.find_element(css: 'div > div > p').text
+          address = scraper.find_element(xpath: '/html/body/div[1]/section[2]/div/div[1]/div[3]/div/span/a').text
           
           url = scraper.current_url
 
@@ -98,10 +112,20 @@ class EventScrapJob < ApplicationJob
             puts "ERRO #{e.message}"
           end
 
+          months.each do |abbrev, num|
+            date.gsub!(abbrev, num)
+          end
+
+          date = date.gsub(' • ', ' ').split(' > ')
+
+          date[0] = DateTime.strptime(date[0], "%d %m - %Y %H:%M")
+          date[1] = DateTime.strptime(date[1], "%d %m - %Y %H:%M")
+
           new_event = {
             name: title,
             description: description,
-            date: date,
+            start_time: date[0],
+            end_time: date[1],
             address: address,
             url: url
           }
@@ -145,7 +169,14 @@ def create_new_events(path)
 
     unless event
       begin
-        Event.create(name: new_event['name'], date: new_event['date'], description: new_event['description'],)
+        Event.create(
+          name: new_event['name'],
+          description: new_event['description'],
+          start_time: new_event['start_time'],
+          end_time: new_event['end_time'],
+          url: new_event['url'],
+          address: new_event['address']
+        )
       rescue => e
         puts "Erro ao criar novo evento: #{e.message}"
       end
