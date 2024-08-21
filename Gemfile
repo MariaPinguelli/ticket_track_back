@@ -23,6 +23,8 @@ gem 'jwt'
 
 gem 'sidekiq'
 
+gem 'i18n'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
