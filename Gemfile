@@ -1,12 +1,12 @@
 source "https://rubygems.org"
 
-ruby "3.2.3"
+ruby "3.3.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.5.7"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -14,6 +14,14 @@ gem "puma", ">= 5.0"
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 
 gem 'rack-cors'
+
+gem 'selenium-webdriver'
+
+gem 'json'
+
+gem 'jwt'
+
+gem 'sidekiq'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

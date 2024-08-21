@@ -10,13 +10,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :users do
-    member do
-      post 'add_favorite/:event_id', to: 'users#add_favorite', as: :add_favorite
-      delete 'remove_favorite/:event_id', to: 'users#remove_favorite', as: :remove_favorite
-    end
-  end
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  post 'login', to: 'sessions#create'
+  resources :users
   resources :events
 end

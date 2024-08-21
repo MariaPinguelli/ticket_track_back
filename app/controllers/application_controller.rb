@@ -1,19 +1,22 @@
 class ApplicationController < ActionController::API
-    before_action :authenticate_user 
-    include ActionController::Cookies 
-  
-    private 
-  
-    def  current_user 
-        user = User.find_by(id: session[:user_id])
-        Rails.logger.info "Current User ID: #{session[:user_id]}" # Adiciona uma linha de log
-        @current_user ||= user
-
+    def authenticate_user!
+        token = request.headers['Authorization']
+        if token.present?
+        decoded_token = decode_token(token)
+        @current_user = User.find_by(id: decoded_token[:user_id]) if decoded_token
+        end
+    
+        render json: { error: 'Unauthorized' }, status: :unauthorized unless @current_user
     end
-  
-   private 
-  
-    def  authenticate_user
-       render json: { error:  'Não autorizado' }, status:  :unauthorized  unless current_user 
-    end 
-end
+      
+    private
+    
+    def decode_token(token)
+        secret = Rails.application.secrets.secret_key_base
+        begin
+        JWT.decode(token, secret, true, algorithm: 'HS256')[0].symbolize_keys
+        rescue
+        nil
+        end
+    end
+    end
