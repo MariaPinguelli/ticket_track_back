@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-    before_action :require_admin, only: %i[destroy]
-    before_action :set_user, only: [:add_favorite, :remove_favorite]
+    # before_action :require_admin, only: %i[destroy]
+    # before_action :set_user, only: [:add_favorite, :remove_favorite]
+    before_action :authenticate_user!, except: [:create, :index]
     def index
         @users = User.all
         render json: @users

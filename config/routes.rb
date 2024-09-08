@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   post 'login', to: 'sessions#create'
-  resources :users
+  post 'events/:event_id/favorite', to: 'favorites#create'
+  resources :users 
+  get '/user', to: 'users#show'
   resources :events
+  get '/events', to: 'events#show'
 end
