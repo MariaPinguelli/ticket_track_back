@@ -2,11 +2,10 @@ class FavoritesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @favorites = current_user.favorite_events
-
+    @favorites = current_user.favorites.includes(:event).map(&:event)
     render json: @favorites
   end
-  
+
   def create
     # Verifica se o evento existe
     event = Event.find(params[:event_id])

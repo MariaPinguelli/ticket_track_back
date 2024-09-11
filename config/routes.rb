@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   post 'login', to: 'sessions#create'
   post '/events/:event_id/favorite', to: 'favorites#create'
+  resources :favorites, only: [:index, :destroy]
   resources :users 
   get '/user', to: 'users#show'
   resources :events
