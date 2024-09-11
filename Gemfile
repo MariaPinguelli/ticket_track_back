@@ -15,6 +15,8 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 
 gem 'rack-cors'
 
+gem 'kaminari'
+
 gem 'selenium-webdriver'
 
 gem 'json'

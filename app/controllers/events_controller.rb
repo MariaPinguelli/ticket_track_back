@@ -1,8 +1,10 @@
 class EventsController < ApplicationController
     skip_before_action :authenticate_user!, only: [:index, :show]
     def index
-        @event = Event.all
-        render json: @event
+        page = params[:page] || 1
+        per_page = params[:per_page] || 9
+        @events = Event.page(page).per(per_page)
+        render json: @events
     end
 
     def show
